@@ -17,7 +17,7 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
-app.post("/my-flights", async (req, res) => {
+app.get("/my-flights", async (req, res) => {
   const { uid } = req.body;
 
   try {
