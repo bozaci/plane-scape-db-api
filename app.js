@@ -28,7 +28,15 @@ app.get("/my-flights", async (req, res) => {
 
 app.post("/book-flight", async (req, res) => {
   const { flightId, uid } = req.body;
-  const newFlight = new Flight({ flightId, uid });
+  const newFlight = new Flight({
+    flightId,
+    uid,
+    takeOff,
+    landing,
+    scheduleDateTimes,
+    airlineCompanyCode,
+    price,
+  });
 
   try {
     const existingFlight = await Flight.findOne({ flightId, uid });
