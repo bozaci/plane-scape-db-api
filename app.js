@@ -20,15 +20,14 @@ mongoose
 app.get("/my-flights", async (req, res) => {
   const { uid } = req.body;
 
-  console.log(uid);
-
   try {
-    const flights = await Flight.find();
+    const flights = await Flight.findOne({ uid });
     res.json(flights);
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve flights", status: "error" });
   }
 });
+
 app.post("/book-flight", async (req, res) => {
   const { flightId, uid, takeOff, landing, scheduleDateTime, airlineCompanyCode, price } = req.body;
 
