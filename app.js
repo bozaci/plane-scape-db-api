@@ -41,7 +41,7 @@ app.post("/book-flight", async (req, res) => {
     uid,
     takeOff,
     landing,
-    scheduleDateTimes,
+    scheduleDateTime,
     airlineCompanyCode,
     price,
   });
