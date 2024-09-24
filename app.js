@@ -26,8 +26,7 @@ app.get("/my-flights", async (req, res) => {
   }
 });
 app.post("/book-flight", async (req, res) => {
-  const { flightId, uid, takeOff, landing, scheduleDateTimes, airlineCompanyCode, price } =
-    req.body;
+  const { flightId, uid, takeOff, landing, scheduleDateTime, airlineCompanyCode, price } = req.body;
 
   if (!flightId || !uid) {
     return res.status(400).json({
