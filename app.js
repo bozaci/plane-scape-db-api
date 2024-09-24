@@ -31,7 +31,16 @@ app.post("/book-flight", async (req, res) => {
   const newFlight = new Flight({ flightId, uid });
 
   try {
+    const existingFlight = await Flight.findOne({ flightId, uid });
+
+    if (existingFlight)
+      return res.status(400).json({
+        message: "You've already booked this flight.",
+        status: "error",
+      });
+
     const savedFlight = await newFlight.save();
+
     res
       .status(201)
       .json({ message: "Flight successfully booked.", flight: savedFlight, status: "success" });
