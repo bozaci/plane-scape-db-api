@@ -25,9 +25,17 @@ app.get("/my-flights", async (req, res) => {
     res.status(500).json({ message: "Failed to retrieve flights", status: "error" });
   }
 });
-
 app.post("/book-flight", async (req, res) => {
-  const { flightId, uid } = req.body;
+  const { flightId, uid, takeOff, landing, scheduleDateTimes, airlineCompanyCode, price } =
+    req.body;
+
+  if (!flightId || !uid) {
+    return res.status(400).json({
+      message: "Flight ID and UID are required.",
+      status: "error",
+    });
+  }
+
   const newFlight = new Flight({
     flightId,
     uid,
@@ -41,11 +49,12 @@ app.post("/book-flight", async (req, res) => {
   try {
     const existingFlight = await Flight.findOne({ flightId, uid });
 
-    if (existingFlight)
+    if (existingFlight) {
       return res.status(400).json({
         message: "You've already booked this flight.",
         status: "error",
       });
+    }
 
     const savedFlight = await newFlight.save();
 
@@ -53,7 +62,7 @@ app.post("/book-flight", async (req, res) => {
       .status(201)
       .json({ message: "Flight successfully booked.", flight: savedFlight, status: "success" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to book flight", status: "error" });
+    res.status(500).json({ message: "Failed to book flight", status: "error", error });
   }
 });
 
