@@ -21,7 +21,12 @@ app.post("/my-flights", async (req, res) => {
   const { uid } = req.body;
 
   try {
-    const flights = await Flight.findOne({ uid });
+    const flights = await Flight.find({ uid });
+
+    if (flights.length === 0) {
+      return res.status(404).json({ message: "No flights found for this user.", status: "error" });
+    }
+
     res.json(flights);
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve flights", status: "error" });
@@ -58,11 +63,7 @@ app.post("/book-flight", async (req, res) => {
       });
     }
 
-    const savedFlight = await newFlight.save();
-
-    res
-      .status(201)
-      .json({ message: "Flight successfully booked.", flight: savedFlight, status: "success" });
+    res.status(201).json({ message: "Flight successfully booked.", status: "success" });
   } catch (error) {
     res.status(500).json({ message: "Failed to book flight", status: "error", error });
   }
