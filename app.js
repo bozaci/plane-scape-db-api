@@ -63,7 +63,11 @@ app.post("/book-flight", async (req, res) => {
       });
     }
 
-    res.status(201).json({ message: "Flight successfully booked.", status: "success" });
+    const savedFlight = await newFlight.save();
+
+    res
+      .status(201)
+      .json({ message: "Flight successfully booked.", flight: savedFlight, status: "success" });
   } catch (error) {
     res.status(500).json({ message: "Failed to book flight", status: "error", error });
   }
