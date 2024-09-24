@@ -18,6 +18,10 @@ mongoose
   });
 
 app.get("/my-flights", async (req, res) => {
+  const { uid } = req.body;
+
+  console.log(uid);
+
   try {
     const flights = await Flight.find();
     res.json(flights);
